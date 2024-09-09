@@ -12,6 +12,7 @@ class Graph:
         self.leader_nodes : List = [None for i in range(0, len(self.adjaceny_list))] 
         self.finishing_time : List[Tuple] = [ (i,i+1) for i in range(0, len(self.adjaceny_list)) ]
         self.is_explored : List[bool] = [False for i in range(0, len(self.adjaceny_list))]
+        self.fin_time = 0
 
     def reverse_graph(self) -> AdjacencyList:
         rev_adj_list = [ [] for i in range(len(self.adjaceny_list)) ]
@@ -24,18 +25,17 @@ class Graph:
         # use the finishing time
         stack : Deque = deque()
         stack.append(node)
-        fin_time = 0
 
         while bool(stack):
             curr_node = stack[-1]
 
-            # if there are no neighnhor nodes or all are explored
+            # if there are no neighnhor nodes or all are explored or back to starter node
             if not adjacency_list[curr_node] or all( [ self.is_explored[n_node] for n_node in adjacency_list [curr_node] ] ):
-                fin_time += 1
-                self.finishing_time[curr_node] = (curr_node, fin_time)
+                self.fin_time += 1
+                self.finishing_time[curr_node] = (curr_node, self.fin_time)
                 stack.pop()
                 continue
-
+            
             # iterate through neigbhors
             for n_node in adjacency_list[curr_node]:
                 if not self.is_explored[n_node]:
@@ -43,8 +43,6 @@ class Graph:
                     self.leader_nodes[n_node] = node # set the leader node for the neighbhor
                     stack.append(n_node)
             
-
-
     def traverse_graph(self, adjacency_list):
 
         node_ordering = sorted(self.finishing_time, reverse=True, key= lambda x : x[1])
@@ -74,9 +72,12 @@ class Graph:
 
         # reset explored
         self.is_explored = [False for i in range(0, len(self.adjaceny_list))]
+        self.leader_nodes : List = [None for i in range(0, len(self.adjaceny_list))] 
+        self.fin_time = 0
 
         # loop two on dfs to get leader node    
         self.traverse_graph(self.adjaceny_list)
+        print(f'Leader nodes : {self.leader_nodes}')
 
         return set(self.leader_nodes)
 
@@ -102,4 +103,19 @@ def test_algo():
     graph : Graph = Graph(adjacency_list=adj_list)
     print(graph.find_sccs())
 
-test_algo()
+def test_algo_2():
+    adj_list = [
+        [3],
+        [7],
+        [5],
+        [6],
+        [1],
+        [8],
+        [0],
+        [4,5],
+        [2,6]
+    ]
+    graph : Graph = Graph(adjacency_list=adj_list)
+    print(graph.find_sccs())
+
+test_algo_2()
