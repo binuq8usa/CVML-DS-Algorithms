@@ -48,7 +48,6 @@ class AdamOptimizer:
                 else self.beta_1 * self.Vd[key] + (1 - self.beta_1) * grad_parameters[key]
             temp = grad_parameters[key] * grad_parameters[key]
             self.Sd[key] = temp if self.Sd[key].size == 0 else self.beta_2 * self.Sd[key] + (1 - self.beta_2) * temp
-            
             parameters[key] -= self.learning_rate * self.Vd[key] / np.sqrt(self.Sd[key] + 1e-10)         
         return parameters
 
