@@ -230,6 +230,40 @@ def get_cancer_dataset(csv_filename):
     
     return X,y
 
+def compute_metrics(y_pred, y_test):
+    """
+    Precision, Recall and F-score
+    sensitivity, specificity
+    Precision = TP/(TP+FP) # able to correct detect that an unhealthy person has a disease 
+    Recall/Sensitivity = TP/(TP + FN)
+    
+    Specificity = TN/(TN + FN) # able to correctly reject that healthy person has a disease
+    
+
+    Args:
+        y_pred (_type_): _description_
+        y_test (_type_): _description_
+    """
+    
+    labels = np.unique(y_test)
+    prec = [], recall = [], specs = []
+    assert len(y_pred) == len(y_test)
+    
+    for label in labels:
+        mask_test = y_test == label
+        mask_pred = y_pred == label 
+        
+        TP = np.sum(mask_test and mask_pred)
+        FP = np.sum(~mask_test and mask_pred)
+        FN = np.sum(mask_test and ~mask_pred)
+        TN = np.sum(~mask_test and ~mask_pred) 
+        
+        prec.append(TP/(TP+FP+1e-12))
+        recall.append(TP/(TP + FN + 1e-12))
+        specs.append(TN/(TN + FN + 1e-12))
+        
+    return {'Precision' : np.mean(np.array(prec))}    
+
 def test_decision_tree():
     filename = '/Users/binun/Documents/GitHub/CVML-DS-Algorithms/test_data/data.csv'
     X,y = get_cancer_dataset(filename)
