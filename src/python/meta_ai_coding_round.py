@@ -59,7 +59,7 @@ def drawKBalls(input_nums : List[int], k : int) -> List[int]:
         input_nums[selectedIndex] = temp
         input_nums[-1] = ball_val
 
-        if ( len(output_nums) == k) break; 
+        if len(output_nums) == k: break; 
 
     return output_nums
 
