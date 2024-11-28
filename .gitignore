@@ -4,3 +4,8 @@
 /.vscode
 .vscode/settings.json
 .vscode/settings.json
+/src/cpp/applied_intution_interview.dSYM
+src/ml/numpy/__pycache__/meanAveragePrecision.cpython-38.pyc
+test_data/.DS_Store
+test_data/mAP/.DS_Store
+test_data/.DS_Store

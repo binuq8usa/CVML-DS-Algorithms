@@ -89,7 +89,35 @@ class Parser:
                 curr_message.message_type = MESSAGE
             else:
                 curr_message.fields.append((field_name, data_types[field_type]))
-    
+   
+   
+   
+   
+   """
+   C++ 
+    enum class BasicDataType{
+  FLOAT = 4,
+  INT = 4,
+  STRING = 256,
+  MESSAGE = 256
+};
+
+class Parser{
+  public:
+    int getSize(const BasicDataType& datatype) {
+      if (datatype != BasicDataType::MESSAGE) {
+        return int(datatype);
+      } else {
+        // TODO get size of the message
+        return 0;
+      }
+    }
+
+    string 
+};
+   
+   
+   """ 
 
 
 
